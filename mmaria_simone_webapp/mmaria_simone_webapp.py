@@ -165,7 +165,7 @@ def utc_date_from_mtime(p: Path) -> str:
     return dt.strftime("%Y-%m-%d")
 
 def _archive_file(src: Path, station_cfg: dict) -> dict | None:
-    # Kopiert eine Datei atomar direkt ins Archiv und pflegt den DB-Eintrag.
+    # Kopiert eine Datei direkt ins Archiv und pflegt den DB-Eintrag.
     key = station_cfg["key"]
     _ensure_dirs_for_station(key)
     if not src.exists():
@@ -180,10 +180,8 @@ def _archive_file(src: Path, station_cfg: dict) -> dict | None:
     image_name = src.name
     archive_dst = archive_dir / image_name
 
-    # Atomar kopieren
-    tmp_archive = archive_dst.with_suffix(".tmp")
-    shutil.copy2(src, tmp_archive)
-    os.replace(tmp_archive, archive_dst)
+    # Ins Archiv kopieren
+    shutil.copy2(src, archive_dst)
 
     # DB upsert
     with closing(get_db()) as db:
@@ -215,7 +213,7 @@ def _archive_file(src: Path, station_cfg: dict) -> dict | None:
     }
 
 def mirror_current_and_archive(station_cfg: dict):
-    # incoming -> current (atomar) und danach ins Archiv + DB.
+    # incoming -> current und danach ins Archiv + DB.
     key = station_cfg["key"]
     _ensure_dirs_for_station(key)
 
@@ -223,11 +221,9 @@ def mirror_current_and_archive(station_cfg: dict):
     if not src.exists():
         return None  # nichts zu tun
 
-    # 1) current spiegeln (atomar)
+    # 1) current spiegeln
     current_dst = CURRENT_DIR / key / "latest.png"
-    tmp_current = current_dst.with_suffix(".tmp")
-    shutil.copy2(src, tmp_current)
-    os.replace(tmp_current, current_dst)
+    shutil.copy2(src, current_dst)
 
     # 2) ins Archiv + DB
     return _archive_file(src, station_cfg)
