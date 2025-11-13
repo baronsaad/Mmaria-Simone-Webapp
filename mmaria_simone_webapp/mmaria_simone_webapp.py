@@ -47,7 +47,7 @@ DATA_DIR = (BASE_DIR / os.environ.get("DATA_DIR", "data")).resolve()
 INCOMING_DIR = DATA_DIR / "incoming"
 CURRENT_DIR = DATA_DIR / "current"
 ARCHIVE_DIR = DATA_DIR / "archive"
-OLD_INCOMING_DIR = DATA_DIR / "old incoming"  # neuer Ordner für Nachreichungen mit Leerzeichen
+OLD_INCOMING_DIR = DATA_DIR / "old incoming"
 DB_PATH = DATA_DIR / "app.db"
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
