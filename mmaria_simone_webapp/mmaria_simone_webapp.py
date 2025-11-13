@@ -274,7 +274,7 @@ def archive_only_from_old_incoming(station_cfg: dict):
 # -----------------
 app = Flask(__name__)
 
-# Templates als Strings, um alles in einer Datei zu halten
+# Templates, um alles in einer Datei zu halten
 BASE_HTML = """<!doctype html>
 <html>
 <head>
