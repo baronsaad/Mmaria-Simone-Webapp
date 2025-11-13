@@ -58,7 +58,7 @@ OLD_INCOMING_DIR.mkdir(parents=True, exist_ok=True)
 
 # -----------------
 # Stations (Projekt, Land, Map‑Embed, Quelle)
-# station_key ist Ordnername unter incoming/current/archive
+# station_key ist Ordnername unter incoming/old incoming/current/archive
 # -----------------
 STATIONS = [
     {
