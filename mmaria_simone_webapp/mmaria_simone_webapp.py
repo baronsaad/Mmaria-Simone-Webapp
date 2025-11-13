@@ -20,7 +20,7 @@ Ausführung:
   $ pip install flask jinja2 click
   $ python mmaria_simone_webapp.py init-db      # einmalig
   $ python mmaria_simone_webapp.py scan         # per Cron alle 5 Min. aufrufen
-  $ python mmaria_simone_webapp.py run          # Webserver starten (dev)
+  $ python mmaria_simone_webapp.py run          # Webserver starten
 
 Cron-Beispiel (alle 5 Min.):
   */5 * * * * /usr/bin/python /path/mmaria_simone_webapp.py scan >> /var/log/scan.log 2>&1
