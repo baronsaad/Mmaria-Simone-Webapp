@@ -25,7 +25,7 @@ Ausführung:
 Cron-Beispiel (alle 5 Min.):
   */5 * * * * /usr/bin/python /path/mmaria_simone_webapp.py scan >> /var/log/scan.log 2>&1
 
-Hinweis: Stations‑Konfiguration am Ende des Files in STATIONS.
+Hinweis: Stations‑Konfiguration in STATIONS.
 """
 from __future__ import annotations
 
