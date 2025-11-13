@@ -212,6 +212,16 @@ def _archive_file(src: Path, station_cfg: dict) -> dict | None:
         "archive": str(archive_dst.relative_to(DATA_DIR)),
     }
 
+def _is_newer_than_current(src: Path, current_dst: Path) -> bool:
+    # Gibt True zurueck, wenn src neuer ist als current_dst (oder current_dst nicht existiert).
+    if not current_dst.exists():
+        return True
+    try:
+        return src.stat().st_mtime > current_dst.stat().st_mtime
+    except Exception:
+        # Im Zweifel nicht spiegeln (konservativ), aber trotzdem archivieren
+        return False
+
 def mirror_current_and_archive(station_cfg: dict):
     # incoming -> current und danach ins Archiv + DB.
     key = station_cfg["key"]
@@ -221,12 +231,16 @@ def mirror_current_and_archive(station_cfg: dict):
     if not src.exists():
         return None  # nichts zu tun
 
-    # 1) current spiegeln
     current_dst = CURRENT_DIR / key / "latest.png"
-    shutil.copy2(src, current_dst)
 
-    # 2) ins Archiv + DB
-    return _archive_file(src, station_cfg)
+    # Nur spiegeln, wenn das neue Bild wirklich neuer als current ist.
+    if _is_newer_than_current(src, current_dst):
+        shutil.copy2(src, current_dst)
+        # Danach immer archivieren + DB upsert
+        return _archive_file(src, station_cfg)
+    else:
+        # Nicht neuer: nur ins Archiv uebernehmen (current bleibt unveraendert)
+        return _archive_file(src, station_cfg)
 
 def archive_only_from_old_incoming(station_cfg: dict):
     """
