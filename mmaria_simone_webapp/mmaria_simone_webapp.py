@@ -249,9 +249,10 @@ def archive_only_from_old_incoming(station_cfg: dict):
     """
     key = station_cfg["key"]
     _ensure_dirs_for_station(key)
+  
     src_dir = OLD_INCOMING_DIR / key
     if not src_dir.exists():
-        return []
+        return None  # nichts zu tun
 
     # Nur PNG-Dateien verarbeiten; nach Änderungszeit sortieren
     pngs = sorted([p for p in src_dir.glob("*.png") if p.is_file()],
