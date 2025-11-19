@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 MMARIA & SIMONe plot publisher (Flask, Datei + Datenbank)
 
